@@ -1,4 +1,5 @@
 import React from 'react';
+import Terrain from './Components/Terrain';
 import './App.css';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
         <p>
           Mark
         </p>
+        <Terrain />
       </header>
     </div>
   );
