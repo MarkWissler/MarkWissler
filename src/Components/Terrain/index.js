@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 function Terrain (props) {
-    
     useEffect(() => {
         const scene = new THREE.Scene();
         // renderer
@@ -14,19 +13,20 @@ function Terrain (props) {
         renderer.setSize( window.innerWidth, window.innerHeight );
 
         function render () {
-            console.log("lol");
             renderer.render( scene, camera );
+            scene.rotation.y = Math.sin(Date.now()*0.0001);
+            requestAnimationFrame(render);
         }
         const aspect = window.innerWidth / window.innerHeight;
         const d = 20;
-        const camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 );
+        const camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 0.001, 1000 );
         camera.position.set( 20, 20, 20 );
 		camera.rotation.order = 'YXZ';
 		camera.rotation.y = - Math.PI / 4;
         camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 ) );
         
         const controls = new OrbitControls( camera, renderer.domElement );
-        controls.addEventListener( 'change', render );
+        // controls.addEventListener( 'change', render );
         controls.enableZoom = false;
         controls.enablePan = false;
         controls.maxPolarAngle = Math.PI / 2;
@@ -37,28 +37,19 @@ function Terrain (props) {
         light.position.set( 0, 50, 50 );
         scene.add( light );
 
-        // axes
-        scene.add( new THREE.AxisHelper( 40 ) );
-
-        // grid
-        const planeGeometry = new THREE.PlaneBufferGeometry( 100, 100, 10, 10 );
-        const planeMaterial = new THREE.MeshBasicMaterial( { wireframe: true, opacity: 0.5, transparent: true } );
-        const grid = new THREE.Mesh( planeGeometry, planeMaterial );
-        grid.rotation.order = 'YXZ';
-        grid.rotation.y = - Math.PI / 2;
-        grid.rotation.x = - Math.PI / 2;
-        scene.add( grid );
-
-        // geometry
         const geometry = new THREE.BoxGeometry( 10, 10, 10 );
-
-        // material
         const material = new THREE.MeshNormalMaterial();
+        const group = new THREE.Object3D();
+        for (let i = -5; i < 5; i++) {
+            for (let j = -5; j < 5; j++) {
+                const newMesh = new THREE.Mesh( geometry, material );
+                newMesh.position.set(i*12,0, j*12);
+                group.add(newMesh);
+            }
+        }
 
-        // mesh
-        const mesh = new THREE.Mesh( geometry, material );
-        scene.add( mesh );
-
+        scene.add(group);
+        
         render();
     });
     return (
