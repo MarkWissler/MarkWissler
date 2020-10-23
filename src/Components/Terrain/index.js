@@ -32,14 +32,12 @@ function Terrain (props) {
                 if (Math.random() > 0.9) {
                     child.rotateZ(ry);
                 }
-                debugger;
+                let t3 = Date.now() / 5100;
                 if (child.color) {
-                    child.color.r = Math.sin(t2);
-                    child.color.g = Math.cos(t);
-                    child.color.b = Math.tan(t/t2);
+                    child.color.r = Math.sin(t3);
+                    child.color.g = Math.cos(t3);
+                    child.color.b = Math.tan(t/t3);
                 }
-                console.log(camera);
-                // child.color.r = Math.sin(t2);
             })
             renderer.render( scene, camera );
             scene.rotation.y = Math.sin(Date.now()*0.00001);

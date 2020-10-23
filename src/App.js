@@ -8,9 +8,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Mark Wissler
-        </p>
+        <div className="abs">
+          <p>
+            Mark Wissler
+          </p>
+        </div>
+        
+        
         <Terrain />
       </header>
     </div>
